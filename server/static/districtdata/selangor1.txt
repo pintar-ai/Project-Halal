@@ -1,0 +1,10 @@
+<option>Select Now</option>
+<option value="gombak selangor">Gombak</option>
+<option value="hulu langat selangor">Hulu Langat</option>
+<option value="hulu selangor">Hulu Selangor</option>
+<option value="klang selangor">Klang</option>
+<option value="kuala langat selangor">Kuala Langat</option>
+<option value="kuala selangor">Kuala Selangor</option>
+<option value="petaling jaya selangor">Petaling</option>
+<option value="sabak bernam selangor">Sabak Bernam</option>
+<option value="sepang selangor">Sepang</option>

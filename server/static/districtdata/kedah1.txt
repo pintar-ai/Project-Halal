@@ -1,0 +1,13 @@
+<option>Select Now</option>
+<option value="kota setar kedah">Kota Setar</option>
+<option value="padang terap kedah">Padang Terap</option>
+<option value="langkawi kedah">Langkawi</option>
+<option value="kuala muda kedah">Kuala Muda</option>
+<option value="yan kedah">Yan</option>
+<option value="sik kedah">Sik</option>
+<option value="baling kedah">Baling</option>
+<option value="kulim kedah">Kulim</option>
+<option value="bandar baharu kedah">Bandar Baharu</option>
+<option value="pendang kedah">Pendang</option>
+<option value="pokok sena kedah">Pokok Sena</option>
+<option value="kubang pasu kedah">Kubang Pasu</option>

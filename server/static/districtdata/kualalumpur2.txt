@@ -1,0 +1,10 @@
+<option>Select Now</option>
+<option value="ampang kuala lumpur">Ampang</option>
+<option value="batu caves kuala lumpur">Batu Caves</option>
+<option value="cheras kuala lumpur">Cheras</option>
+<option value="damansara kuala lumpur">Damansara</option>
+<option value="gombak kuala lumpur">Gombak</option>
+<option value="hulu kelang kuala lumpur">Hulu Kelang</option>
+<option value="sentul kuala lumpur">Sentul</option>
+<option value="setapak kuala lumpur">Setapak</option>
+<option value="sungai kuala lumpur">Sungai Besi</option>

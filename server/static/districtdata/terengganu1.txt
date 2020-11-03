@@ -1,0 +1,8 @@
+<option>Select Now</option>
+<option value="besut terengganu">Besut</option>
+<option value="dungun terengganu">Dungun</option>
+<option value="kemaman terengganu">Kemaman</option>
+<option value="kuala terengganu">Kuala Terengganu</option>
+<option value="hulu terengganu">Hulu Terangganu</option>
+<option value="marang terengganu">Marang</option>
+<option value="setiu terengganu">Setiu</option>

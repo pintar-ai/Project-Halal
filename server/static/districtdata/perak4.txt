@@ -1,0 +1,13 @@
+<option>Select Now</option>
+<option value="bagan datuk perak">Bagan Datuk</option>
+<option value="batang padang perak">Batang Padang</option>
+<option value="teluk intan perak">Teluk Intan</option>
+<option value="gerik perak">Gerik</option>
+<option value="kampar perak">Kampar</option>
+<option value="parit buntar perak">Parit Buntar</option>
+<option value="batu gajah perak">Batu Gajah</option>
+<option value="kuala kangsar perak">Kuala Kangsar</option>
+<option value="taiping perak">Taiping</option>
+<option value="manjung perak">Manjung</option>
+<option value="tanjung malim perak">Tanjung Malim</option>
+<option value="seri iskandar perak">Seri Iskandar</option>

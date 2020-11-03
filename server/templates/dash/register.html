@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="Kodinger">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Register Page | Halal Item Server </title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/my-login.css')}}">
+		<!-- {{url_for('static', filename='img/logo.jpg')}}    -->
+	<!--     Fonts and icons     -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+	<!-- CSS Files -->
+	<link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+	<link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" +"?v=2.0.1"
+	rel="stylesheet" />
+
+	<style>
+		.mySlides {
+			display:none;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+		}
+
+		.background-container{
+			height: 100%;
+			width: 100%;
+			z-index: 1;
+			position: absolute;
+			display: flex;
+		}
+
+		.background-container-content{
+			z-index: 0;
+			display: flex;
+			position: relative;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.background-container-content .container{
+			margin-right: auto;
+			margin-left: auto;
+			position: relative;
+			min-height: 100vh;
+			z-index: 2;
+		}
+
+		.background-container-content .text-container{
+			margin-right: auto;
+			margin-left: auto;
+			position: relative;
+			min-height: 25vh;
+			z-index: 2;
+		}
+
+		.background-container-content .assets-slideshow{
+			max-width: 1000px;
+  			position: relative;
+  			margin: auto;
+			z-index: 2;
+		}
+		
+		.text-container-title{
+			color: white;
+			text-align: left;
+		}
+
+		.text-container-content{
+			color: white;
+			text-align: left;
+		}
+
+		.background-container::before, .background-container::after{
+
+			position: absolute;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			display: block;
+			left: 0;
+			top: 0;
+			content: "";
+
+		}
+
+		.background-container::before{
+
+			background: rgba(0,0,0,0.5);
+
+		}
+
+		.footer-content{
+			margin-right: 10px;
+		}
+
+	</style>
+</head>
+<body class="my-login-page">
+	<section class="h-100">
+		<div class="background-container-content">
+			<div class="background-container">
+				<img class="mySlides" src="{{url_for('static', filename='img/background-register/bg1.png')}}">
+				<img class="mySlides" src="{{url_for('static', filename='img/background-register/bg2.png')}}">
+			</div>
+			<div class="container h-100">
+				<div class="row justify-content-md-center h-100">
+					<div class="card-wrapper">
+						<div class="brand">
+								<img src="{{url_for('static', filename='img/halal.png')}}" alt="logo">
+						</div>
+						<div class="card fat">
+							<div class="card-body">
+								<h4 class="card-title">Register</h4>
+								<form method="POST" class="my-login-validation" novalidate="" action="/reg">
+									<div class="form-group">
+										<label for="name">Username</label>
+										<input id="name" type="text" class="form-control" name="username" required autofocus>
+										<div class="invalid-feedback">
+											What's your username?
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="fullname">Full name</label>
+										<input id="fullname" type="text" class="form-control" name="fullname" required autofocus>
+										<div class="invalid-feedback">
+											What's your Full name?
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="email">Email Address</label>
+										<input id="email" type="text" class="form-control" name="email" required autofocus>
+										<div class="invalid-feedback">
+											What's your Email Address?
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="address">House Address</label>
+										<input id="address" type="text" class="form-control" name="address" required autofocus>
+										<div class="invalid-feedback">
+											What's your house address?(Example:Batu Caves)
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="password">Password</label>
+										<input id="password" type="password" class="form-control" name="password" required data-eye>
+										<div class="invalid-feedback">
+											Password is required
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="custom-checkbox custom-control">
+											<input type="checkbox" name="agree" id="agree" class="custom-control-input" required="">
+											<label for="agree" class="custom-control-label">I agree to the <a href="#">Terms and Conditions</a></label>
+											<div class="invalid-feedback">
+												You must agree with our Terms and Conditions
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group m-0">
+										<button type="submit" class="btn btn-primary btn-block">
+											Register
+										</button>
+									</div>
+									<div class="mt-4 text-center">
+										Already have an account? <a href="{{ url_for('login') }}">Login</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="footer" style="position: relative; display: block;">
+			<div class="container" style="max-width: 1500px;">
+				<nav style="float: left; min-height: 200px;">
+					<ul class="footer-menu" style="min-height: inherit;">
+						<li style="margin: 20px;margin-right: 50px;">
+							<div class="brand">
+								<img src="{{url_for('static', filename='img/halal.png')}}" alt="logo">
+							</div>
+						</li>
+						<li>
+							<div class="footer-content">
+								<div class="footer-content-address-title">
+									<h4 style="text-align: justify;">Address</h4>
+								</div>
+								<div class="footer-contetn-address-content">
+									<p style="text-align: left; font-size: 12px;">
+										PintarAi Services Sdn Bhd,<br> (1331900-P)<br> C/O Lot 19-2, Jalan AU 1A/4b,<br>Keramat Permai Business Centre,54200,<br> Kuala Lumpur, Malaysia.
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="footer-content">
+								<div class="footer-content-address-title">
+									<h4 style="text-align: justify;">Contact Us</h4>
+								</div>
+								<div class="footer-contetn-address-content">
+									<p style="text-align: left; font-size: 12px;">
+										sales@pintarai.com<br> support@pintarai.com<br> +(60)19 718 5199<br> +(60)19981 6001
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="footer-content">
+								<div class="footer-content-address-title">
+									<h4 style="text-align: justify;">Resources</h4>
+								</div>
+								<div class="footer-contetn-address-content">
+									<p style="text-align: left; font-size: 12px;">
+										Our Published Papers on AI<br> Our Published Papers on Robotic<br> Download form Github
+									</p>
+								</div>
+							</div>
+						</li>
+						<li>
+						</li>
+					</ul>
+				</nav>
+				<div style="float: right; position: relative; display: block;margin-top: 75px;">
+					<p class="copyright text-center">
+						Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
+					</p>
+				</div>
+			</div>
+		</footer>
+	</section>
+
+	<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+	<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/my-login.js')}}"></script>
+	<script>
+		var myIndex = 0;
+		carousel();
+		
+		function carousel() {
+		  var i;
+		  var x = document.getElementsByClassName("mySlides");
+		  for (i = 0; i < x.length; i++) {
+			x[i].style.display = "none";  
+		  }
+		  myIndex++;
+		  if (myIndex > x.length) {myIndex = 1}    
+		  x[myIndex-1].style.display = "block";  
+		  setTimeout(carousel, 2000); // Change image every 2 seconds
+		}
+	</script>
+</body>
+</html>

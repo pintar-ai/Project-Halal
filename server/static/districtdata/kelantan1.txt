@@ -1,0 +1,12 @@
+<option>Select Now</option>
+<option value="bachok kelantan">Bachok</option>
+<option value="kota bharu kelantan">Kota Bharu</option>
+<option value="machang kelantan">Machang</option>
+<option value="pasir mas kelantan">Pasir Mas</option>
+<option value="pasir puteh kelantan">Pasir Puteh</option>
+<option value="tanah merah kelantan">Tanah Merah</option>
+<option value="tumpat kelantan">Tumpat</option>
+<option value="gua musang kelantan">Gua Musang</option>
+<option value="kuala krai kelantan">Kuala Krai</option>
+<option value="jeli kelantan">Jeli</option>
+<option value="kecil lojing kelantan">Kecil Lojing</option>

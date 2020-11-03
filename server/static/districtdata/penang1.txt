@@ -1,0 +1,5 @@
+<option>Select Now</option>
+<option value="seberang perai tengah">Central Seberang Perai</option>
+<option value="seberang perai utara">North Seberang Perai</option>
+<option value="seberang perai selatan">South Seberang Perai</option>
+<option value="timor laut penang">Timor Laut</option>

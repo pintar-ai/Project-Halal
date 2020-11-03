@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/img/favicon.ico')}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>User List | Halal Item Services Dashboard</title>
+    
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}"+"?v=2.0.1" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+
+</head>
+
+<body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-info" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      
+      {% block body %}{% endblock %}
+    <div class="wrapper">
+        <div class="sidebar"  data-color="blue">
+            
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="" class="simple-text">
+                        <span>Welcome, {{ username }}</span>
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_admin') }}">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_userprofile') }}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('show_userlist') }}">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>User List</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_itemlist') }}">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Item List</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_recordList') }}">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Record List</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Start Navbar -->    
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class=" container-fluid  ">
+                    <a class="navbar-brand" href="{{ url_for('show_userlist') }}"> User List </a>
+                    <small class="d-lg-none"  >&copy; <script>document.write(new Date().getFullYear())</script></small>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                        <div>    
+                            <ul class="nav navbar-nav mr-auto">
+                                <li class="nav-item">
+                                    <!--<i class="nc-icon nc-palette"></i>-->
+                                    <span class="d-lg-none">Cow List</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="{{ url_for('show_userprofile') }}"
+                                        id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <span class="no-icon">Menu</span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="{{ url_for('show_userprofile') }}">User Profile</a>
+                                        <a class="dropdown-item" href="{{ url_for('show_userlist') }}">User List</a>
+                                        <a class="dropdown-item" href="{{ url_for('show_itemlist') }}">Item List</a>
+                                        <a class="dropdown-item" href="{{ url_for('show_recordList') }}">Record List</a>
+                                        <div class="divider"></div>
+                                        <a class="dropdown-item" href="#">Contact Us</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('logout') }}">
+                                        <span class="no-icon">Log out</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                        <div style="float: left;">
+                            <small style="margin:10px;" class="d-none d-lg-block" >&copy; <script>document.write(new Date().getFullYear())</script></small>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                    
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card strpied-tabled-with-hover">
+                                <div class="card-header ">
+                                    <h4 class="card-title">List of User</h4>
+                                    <p class="card-category">Get a List of Users including Admin & User</p>
+                                    <button style="margin: 12px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Adding New Users Manually <i class="fa fa-plus-circle"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body table-full-width table-responsive">
+                                    <table id="myTable" class="table table-hover table-striped">
+
+                                        <tr>
+                                            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')" style="cursor:pointer">No <i class="fa fa-fw fa-sort"></i></th>
+                                            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')" style="cursor:pointer">Username <i class="fa fa-fw fa-sort"></i></th>
+                                            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')" style="cursor:pointer">Date Created <i class="fa fa-fw fa-sort"></i></th>
+                                            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')" style="cursor:pointer">Enabled <i class="fa fa-fw fa-sort"></i></th>
+                                            <th onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')" style="cursor:pointer">Privilage <i class="fa fa-fw fa-sort"></i></th>
+                                            <th>Action</th>
+                                        
+                                        </tr>
+                                        {% set count = 1 %}
+                                        {% for user in users | sort(attribute='privilage') %}
+                                        <tr class="item">
+                                            <td>{{loop.index}}</td>
+                                            <td>{{user['username']}}</td>
+                                            <td>{{user['date_created']}}</td>
+
+                                            {% if user['enabled'] == 1%}
+                                            <td style="color:blue; align-content: center;">Active</td>
+                                            {% elif user['enabled'] == 0%}
+                                            <td style="color: red;">Not Active</td>
+                                            {% endif %}
+
+                                            {% if user['privilage'] == 7%}
+                                            <td>Admin</td>
+                                            {% elif user['privilage'] == 0%}
+                                            <td>User</td>
+                                            {% endif %}
+                                        
+                                        
+                                                <td>
+                                                    <!-- UPDATE BUTTON -->
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myOutput{{ user.username }}"">Update <i class="fa fa-edit	
+                                                        "></i></button>
+                                                    
+                                                    <!-- DELETE BUTTON -->
+                                                    <form action="{{ url_for('deleteuser') }}" method="post">
+                                                            <input type="hidden" value="{{user.username}}" name=username>
+                                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to delete this item?');">Delete 
+                                                                <i class="fa fa-remove"></button>
+                                    
+                                                    </form>
+                                                </td>
+                                        </tr>
+           
+                                        <!-- DIALOG BOX FOR UPDATE --> 
+                                        <div class="modal" id="myOutput{{ user.username }}" role="dialog" tabindex="-1" aria-hidden="true">
+            
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header justify-content-center">
+                                                            
+                                                        <div class="modal-profile">
+                                                            <i class="nc-icon nc-simple-add"></i>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                            <h4>Update Details <br><br> Username:
+                                                            <span style="text-decoration:underline;"><b>{{user['username']}}</b></span></h4><br>
+                                                    <form id="submit_modal2" action="{{ url_for('updateuser') }}" method="post">
+                                                        <div class="form-group">
+                                
+                                                            <label>Name</label>
+                                                            <input type="text" class="form-control" name="username" readonly="true" value={{user['username']}}>
+                                
+                                                            <label>Privilage</label>
+                                                            <select class="form-control" id="privilage" name="privilage">
+                                                                <option value="0">User</option>
+                                                                <option value="7">Admin</option>
+                                                            </select>
+                                                            <label>New Password</label>
+                                                            <input type="password" class="form-control" name="password" required>
+                                                            <label>Confirm New Password</label>
+                                                            <input type="password" class="form-control" name="repassword" required>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary" onClick="document.getElementById('submit_modal2').submit();">Update</button>
+                                            
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--  End Dialog Box -->
+                                                
+                                        {% set count = count + 1 %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Trigger the modal with a button -->
+                        <center>
+                        
+                        </center>
+                        
+
+                        <!-- Modal -->
+                        <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header text-center">
+                            <h4 class="modal-title w-100" id="exampleModalLabel" >Add New User</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          </div>
+                          <div class="modal-body">
+                            <form id="submit_modal" action="{{url_for('create_user')}}" method="POST">
+                              <div class="form-group">
+                                <label for="username" class="control-label">Username:</label>
+                                <input type="text" class="form-control" name="username" id="username">
+                              </div>
+                              <div class="form-group">
+                                <label for="privilage" class="control-label">Privilage:</label>
+                                <select class="form-control" id="privilage" name="privilage">
+                                        <option value="0">User</option>
+                                        <option value="7">Admin</option>
+                                    </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="password" class="control-label">Password:</label>
+                                <input type="password" class="form-control" name="password" id="password">
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-fill" onClick="document.getElementById('submit_modal').submit();">Add</button>
+                          </div>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="footer">
+                    <div class="container">
+                        <nav>
+                            <ul class="footer-menu">
+                                <li>
+                                    <a href="{{ url_for('show_admin') }}">
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Contact Us
+                                    </a>
+                                </li>
+                            </ul>
+                            <p class="copyright text-center">
+                                Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
+                            </p>
+                        </nav>
+                    </div>
+                </footer>
+        </div>
+    </div>
+
+
+
+
+<!--
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-7 sm-6">
+            <div class="row">
+                <div class="col-lg-7 sm-4">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="col-lg-5 sm-8">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 sm-6">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+    </div>
+</div>-->
+
+    <!-- <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+        <a href="#" data-toggle="dropdown">
+            <i class="fa fa-cog fa-2x"> </i>
+        </a>
+
+        <ul class="dropdown-menu">
+			<li class="header-title"> Sidebar Style</li>
+            <li class="adjustments-line">
+                <a href="javascript:void(0)" class="switch-trigger">
+                    <p>Background Image</p>
+                    <label class="switch">
+                        <input type="checkbox" data-toggle="switch" checked="" data-on-color="primary" data-off-color="primary"><span class="toggle"></span>
+                    </label>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+            <li class="adjustments-line">
+                <a href="javascript:void(0)" class="switch-trigger background-color">
+                    <p>Filters</p>
+                    <div class="pull-right">
+                        <span class="badge filter badge-black" data-color="black"></span>
+                        <span class="badge filter badge-azure" data-color="azure"></span>
+                        <span class="badge filter badge-green" data-color="green"></span>
+                        <span class="badge filter badge-orange" data-color="orange"></span>
+                        <span class="badge filter badge-red" data-color="red"></span>
+                        <span class="badge filter badge-purple active" data-color="purple"></span>
+                    </div>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+            <li class="header-title">Sidebar Images</li>
+
+            <li class="active">
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-1.jpg" alt="" />
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-3.jpg" alt="" />
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="..//assets/img/sidebar-4.jpg" alt="" />
+                </a>
+            </li>
+            <li>
+                <a class="img-holder switch-trigger" href="javascript:void(0)">
+                    <img src="../assets/img/sidebar-5.jpg" alt="" />
+                </a>
+            </li>
+
+            <li class="button-container">
+                <div class="">
+                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard" target="_blank" class="btn btn-info btn-block btn-fill">Download, it's free!</a>
+                </div>
+            </li>
+
+            <li class="header-title pro-title text-center">Want more components?</li>
+
+            <li class="button-container">
+                <div class="">
+                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro" target="_blank" class="btn btn-warning btn-block btn-fill">Get The PRO Version!</a>
+                </div>
+            </li>
+
+            <li class="header-title" id="sharrreTitle">Thank you for sharing!</li>
+
+            <li class="button-container">
+				<button id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i> · 256</button>
+                <button id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i> · 426</button>
+            </li>
+        </ul>
+    </div>
+</div>
+ -->
+</body>
+<!--   Core JS Files   -->
+<script src="{{url_for('static', filename='assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-switch.js')}}"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
+<!--  Notifications Plugin    -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="{{url_for('static', filename='assets/js/light-bootstrap-dashboard.js')}}"+"?v=2.0.1" type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="{{url_for('static', filename='assets/js/demo.js')}}"></script>
+
+
+</html>
