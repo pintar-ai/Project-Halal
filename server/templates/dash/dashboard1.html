@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/img/favicon.ico')}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Main User | pintar.ai Dashboard</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}"+"?v=2.0.1" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+    <!--Chartjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+</head>
+
+<body>
+
+
+    <div class="wrapper">
+            
+        <div class="sidebar" data-color="blue">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+            <div class="sidebar-wrapper">
+                    
+                <div class="logo">
+                    <a href="" class="simple-text">
+                        pintar.ai
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('userdash') }}">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_userprofile') }}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>User Profile</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('show_recordList') }}">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>Record List</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{ url_for('usermap') }}">
+                            <i class="nc-icon nc-pin-3"></i>
+                            <p>Maps</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %}
+            {% for rightadmin, message in messages %}
+            <div class="alert alert-info" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <li style="list-style: none;" class = '{{rightuser}}'>{{message}}</li>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+              
+              {% block body %}{% endblock %}
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class=" container-fluid  ">
+                    <a class="navbar-brand" href="{{ url_for('userdash') }}"> Dashboard </a>
+                    <small class="d-lg-none"  >&copy; <script>document.write(new Date().getFullYear())</script> pintar.ai</small>
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                            <small style="margin:10px;" class="d-none d-lg-block" >&copy; <script>document.write(new Date().getFullYear())</script> pintar.ai</small>
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <!--<i class="nc-icon nc-palette"></i>-->
+                                <span class="d-lg-none">Dashboard</span>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="{{ url_for('show_userprofile') }}"
+                                    id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <span class="no-icon">Menu</span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ url_for('show_userprofile') }}">User Profile</a>
+                                    <a class="dropdown-item" href="{{ url_for('show_itemlist') }}">Halal Item List</a>
+                                    <a class="dropdown-item" href="{{ url_for('usermap') }}">Maps</a>
+                                    <div class="divider"></div>
+                                    <a class="dropdown-item" href="#">Contact Us</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('logout') }}">
+                                    <span class="no-icon">Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->      
+
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                       
+                        <div class="col-md-6">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Soon...</h4>
+                                    <p class="card-category">Soon...</p>
+                                </div>
+                                <div class="card-body ">
+                                    <img src="{{url_for('static', filename='img/soon/soon.png')}}" />
+                                </div>
+                                <div class="card-footer ">
+                                    <hr>
+                                    <div class="stats">
+                                        <i class="fa fa-clock-o"></i> Coming Soon...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    <!--
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Soon...</h4>
+                                    <p class="card-category">Soon...</p>
+                                </div>
+                                <div class="card-body ">
+                                    <div id="chartActivity" class="ct-chart"></div>
+                                </div>
+                                <div class="card-footer ">
+                                    
+                                    <hr>
+                                    <div class="stats">
+                                        Soon...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+
+
+        </div>
+        
+    </div>
+    <footer class="footer">
+            <div class="container">
+                <nav>
+                    <ul class="footer-menu">
+                        <li>
+                            <a href="{{ url_for('userdash') }}">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-center">
+                        Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
+                    </p>
+                </nav>
+            </div>
+        </footer>
+    
+</body>
+<!--   Core JS Files   -->
+<script src="{{url_for('static', filename='assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-switch.js')}}"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
+<!--  Notifications Plugin    -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="{{url_for('static', filename='assets/js/light-bootstrap-dashboard.js')}}"+"?v=2.0.1" type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+        
+
+    });
+</script>
+
+<script>
+var noregister = document.getElementById('myChart').getContext('2d');
+var getData = $.get('/getAntennaData');
+
+getData.done(function(results){
+
+    var chart = new Chart(noregister, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Flight', 'Asset'],
+        datasets: [{
+            label: 'Number of Flights & Assets',
+            backgroundColor: ["#0093c4","#6ec6ff"],
+            borderColor: '#63ccff',
+            hoverBackgroundColor: '#e6ffff',
+            hoverBorderWidth: '1',
+            data: [results.lenflight, results.lenasset]
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        legend: {
+            display: false,
+            labels: {
+                fontColor: 'rgb(0, 0, 0)'
+            }
+        }
+    
+}
+});
+
+})
+
+</script>
+
+
+
+</html>

@@ -25,7 +25,7 @@ app = Flask(__name__, static_url_path='/static')
 #log.setLevel(logging.ERROR)
 
 config = configparser.ConfigParser()
-config.read('/media/ibrahim/Data/halal-server/config.ini')
+config.read('/media/ibrahim/Data/halal_server/config.ini')
 app.secret_key = config['GENERAL']['SECRET_KEY']
 
 import sqlite3
@@ -111,7 +111,8 @@ def request_loader(request):
 def login():
     error = None
     if request.method == 'GET':
-        return render_template('dash/login_page.html')
+        return render_template('dash/login_page.html',)
+        #return render_template('login.html', error=error,)
 
     username = request.form['username']
 
@@ -136,7 +137,7 @@ def login():
             error = 'Wrong Username or Password. Try again!'
     
     return render_template('dash/login_page.html', error=error,)
-
+    #return render_template('login.html', error=error,)
 
 #Render template for template
 
@@ -352,6 +353,13 @@ def pushadmin():
 
     if userentry :
         if userentry['privilage']==7:
+            if date:
+                streetlight_timebased = create_marker(date=date)
+                user_request[username]={'data':json.dumps(streetlight_timebased),'sent':False}
+                return ('', 204)
+            else:
+                return ('', 204)
+        elif userentry['privilage']==0:
             if date:
                 streetlight_timebased = create_marker(date=date)
                 user_request[username]={'data':json.dumps(streetlight_timebased),'sent':False}
@@ -611,6 +619,9 @@ def usermap():
     streetlight_areabased = None
     streetlight_timebased = None
 
+    center_lat = 0.0
+    center_lon = 0.0
+
     if (min1 is None):
         min1, min2, max1, max2 = 0,0,0,0
     else :
@@ -772,6 +783,7 @@ user_request = {}
 def index():
     if flask_login.current_user.is_authenticated:
         username = flask_login.current_user.id
+        print(username)
         cursor.execute('SELECT * FROM user_table WHERE status_log=? ', (username,))
         entry = cursor.fetchone()
 
@@ -792,12 +804,26 @@ def show_admin():
         print ("show_admin = {}".format(username))
         cursor.execute('SELECT * FROM user_table WHERE status_log=? ', (username,))
         entry = cursor.fetchone()
-
         username=entry['username']
+
+        cursor.execute('SELECT * FROM record_table order by datetaken desc limit 5')
+        entry2 = cursor.fetchall()
+
+        cursor.execute('SELECT count(*) as count FROM record_table WHERE strftime("%m", datetaken) = strftime("%m", "now")')
+        entry4 = cursor.fetchone()
+
+        record = entry4['count']
+
+        cursor.execute('SELECT count(*) as count FROM record_table WHERE strftime("%m", datetaken) = strftime("%m", "now", "-1 months")')
+        entry5 = cursor.fetchone()
+
+        pastrecord = entry5['count']
+
+        compare = record - pastrecord
 
         if entry :
             if entry['privilage']==7:
-                return render_template('dash/adminboard.html', username=username)
+                return render_template('dash/adminboard.html', username=username, user=entry2, record=record, pastrecord=pastrecord, compare=compare)
             flask_login.logout_user()
             return redirect(url_for('login'))
     else:
@@ -835,13 +861,27 @@ def userdash():
         cursor.execute('SELECT * FROM user_table WHERE status_log=? ', (username,))
         entry = cursor.fetchone()
 
-        lenadmin = fetchall_data('SELECT * FROM user_table WHERE privilage = 7 ')
+        data_username = entry['username']
+        print(data_username)
 
-        lenuser = fetchall_data('SELECT * FROM user_table WHERE privilage = 0 ')
+        cursor.execute('SELECT * FROM record_table order by datetaken desc limit 5')
+        entry3 = cursor.fetchall()
+
+        cursor.execute('SELECT count(*) as count FROM record_table WHERE strftime("%m", datetaken) = strftime("%m", "now") AND username=?',(data_username,))
+        entry4 = cursor.fetchone()
+
+        record = entry4['count']
+
+        cursor.execute('SELECT count(*) as count  FROM record_table WHERE strftime("%m", datetaken) = strftime("%m", "now", "-1 months") AND username=?',(data_username,))
+        entry5 = cursor.fetchone()
+
+        pastrecord = entry5['count']
+
+        compare = record - pastrecord
 
         if entry :
             if entry['privilage']==0:
-                return render_template('dash/dashboard.html', lenadmin=lenadmin, lenuser=lenuser) #user dashboard
+                return render_template('dash/dashboard.html', user=entry3, username=data_username, record=record, pastrecord=pastrecord, compare=compare) #user dashboard
             flask_login.logout_user()
             return redirect(url_for('login'))
     else:
@@ -1095,18 +1135,40 @@ def create_item():
 def updateuser():
     if flask_login.current_user.is_authenticated:
         username = request.form.get('username')
+        reusername = request.form.get('reusername')
         password = request.form.get('password')
+        depassword = request.form.get('depassword')
+        fullname = request.form.get('fullname')
+        email = request.form.get('email')
+        address = request.form.get('address')
         repassword = request.form.get('repassword')
+        derepassword = request.form.get('derepassword')
         privilage = request.form.get('privilage')
+        deprivilage = request.form.get('deprivilage')
+
+        print(username)
+        print(password)
+        print("Depassword:",format(depassword))
+        print(fullname)
+        print(email)
+        print(address)
+        print(privilage)
+
+        if password == " ":
+            password = depassword
+        if repassword == " ":
+            repassword = derepassword
+        if privilage == "None" or privilage == "none" :
+            privilage = deprivilage
 
         if password == repassword:
-            cursor.execute("""UPDATE user_table SET privilage = ?, password = ? WHERE username = ?""", (privilage,password,username))
+            cursor.execute("UPDATE user_table SET username = ?, fullname = ?, email = ?, address = ?, privilage = ?, password = ? WHERE username = ?", (username,fullname,email,address,privilage,password,reusername))
             flash('You were successfully update user')
+            conn.commit()
+            cursor.execute("UPDATE record_table SET username = ? WHERE username = ?", (username,reusername))
             conn.commit()
         else:
             flash('Not saved. Please enter the valid password.')
-
-        
 
         return redirect(url_for('show_userlist'))
 
@@ -1120,57 +1182,108 @@ def updateitem():
         mscode = request.form.get('samemscode')
         #msvalue=""
 
+        print(itemname)
+        print(itemid)
+        print(mscode)
+
         changeitemname = request.form.get('itemname')
         changeitemid = request.form.get('itemid')
         changemscode = request.form.get('mscode')
         changemsvalue=""
 
-    if changemscode == "0":
-        changemsvalue="MS 1500:2009"
-    elif changemscode == "1":
-        changemsvalue="MS 2200 Part 1:2008"
-    elif changemscode == "2":
-        changemsvalue="MS 2400-1:2010(P)"
-    elif changemscode == "3":
-        changemsvalue="MS 2400-2:2010(P)"
-    elif changemscode == "4":
-        changemsvalue="MS 2400-3:2010(P)"
+        print(changeitemname)
+        print(changeitemid)
 
-    print(changemsvalue)
-    print(mscode)
+        if changemscode == "0":
+            changemsvalue="MS 1500:2009"
+        elif changemscode == "1":
+            changemsvalue="MS 2200 Part 1:2008"
+        elif changemscode == "2":
+            changemsvalue="MS 2400-1:2010(P)"
+        elif changemscode == "3":
+            changemsvalue="MS 2400-2:2010(P)"
+        elif changemscode == "4":
+            changemsvalue="MS 2400-3:2010(P)"
 
-    #print ("updateitem msvalue : {}".format(msvalue))
+        print(changemsvalue)
+        print(mscode)
 
-    cursor.execute('SELECT * FROM data_table where itemid=? AND itemname=? AND mscode=?', (itemid,itemname,mscode))
-    entry=cursor.fetchone()
+        #print ("updateitem msvalue : {}".format(msvalue))
 
-    print ("updateitem entry : {}".format(entry))
+        cursor.execute('SELECT * FROM data_table where itemid=? AND itemname=? AND mscode=?', (itemid,itemname,mscode))
+        entry=cursor.fetchone()
 
-    if entry :            
-        #cursor.execute("""UPDATE data_table SET itemid = ?, itemname = ? WHERE mscode = ?""", (itemid,itemname,msvalue))
-        cursor.execute("""UPDATE data_table SET itemid = ?, itemname = ?, mscode = ? WHERE itemid = ? AND itemname = ? AND mscode = ?""", (changeitemid,changeitemname,changemsvalue,itemid,itemname,mscode,))
-        flash('You were successfully update user')
-        conn.commit()
-            
+        print ("updateitem entry : {}".format(entry))
+
+        if changemscode == "none":
+            changemsvalue = mscode
+
+        if entry :            
+            #cursor.execute("""UPDATE data_table SET itemid = ?, itemname = ? WHERE mscode = ?""", (itemid,itemname,msvalue))
+            cursor.execute("""UPDATE data_table SET itemid = ?, itemname = ?, mscode = ? WHERE itemid = ? AND itemname = ? AND mscode = ?""", (changeitemid,changeitemname,changemsvalue,itemid,itemname,mscode,))
+            flash('You were successfully update user')
+            conn.commit()
+                
+            return redirect(url_for('show_itemlist'))
+        else:
+            flash('Wrong Input')
+            return redirect(url_for('show_itemlist'))
+
+        flash('No Item Exist')
         return redirect(url_for('show_itemlist'))
-    else:
-        flash('Wrong Input')
-        return redirect(url_for('show_itemlist'))
 
-    flash('No Item Exist')
-    return redirect(url_for('show_itemlist'))
-
-@app.route('/updateuserprof', methods=['POST'])
+@app.route('/update_userprof', methods=['POST'])
 @flask_login.login_required
-def updateuserprof():
+def update_userprof():
     if flask_login.current_user.is_authenticated:
         username = request.form.get('username')
+        fullname = request.form.get('fullname')
+        address = request.form.get('address')
         password = request.form.get('password')
         repassword = request.form.get('repassword')
         privilage = request.form.get('privilage')
+        deusername = request.form.get('deusername')
+        depassword = request.form.get('depassword')
+
+        if password == "":
+            password = depassword
+            repassword = depassword
 
         if password == repassword :
-            cursor.execute("""UPDATE user_table SET privilage = ?, password = ? WHERE username = ?""", (privilage,password,username))
+            cursor.execute('UPDATE user_table SET password = ?, username = ?, fullname = ?, address = ? WHERE username = ?', (password,username,fullname,address,deusername))
+            conn.commit()
+            cursor.execute("UPDATE record_table SET username = ? WHERE username = ?", (username,deusername))
+            conn.commit()
+            flash('You were successfully update password')
+        else :
+            flash('Password not saved. Try again.')
+
+        print("{} done".format(password))
+        print("{} done".format(repassword))
+        print("{} done".format(privilage))
+        print("{} done".format(username))
+
+        return redirect(url_for('show_userprofile'))
+
+@app.route('/update_adminprof', methods=['POST'])
+@flask_login.login_required
+def update_adminprof():
+    if flask_login.current_user.is_authenticated:
+        username = request.form.get('username')
+        fullname = request.form.get('fullname')
+        address = request.form.get('address')
+        password = request.form.get('password')
+        repassword = request.form.get('repassword')
+        privilage = request.form.get('privilage')
+        deusername = request.form.get('deusername')
+        depassword = request.form.get('depassword')
+
+        if password == "":
+            password = depassword
+            repassword = depassword
+
+        if password == repassword :
+            cursor.execute('UPDATE user_table SET password = ?, username = ?, fullname = ?, address = ? WHERE username = ?', (password,username,fullname,address,deusername))
             conn.commit()
             flash('You were successfully update password')
         else :
@@ -1216,17 +1329,21 @@ def deleteitem():
 
     if flask_login.current_user.is_authenticated:
         iid = request.form.get('itemid')
+        inm = request.form.get('itemname')
+        ims = request.form.get('mscode')
+        print(iid)
+        print(inm)
+        print(ims)
         
-        cursor.execute('SELECT * FROM data_table WHERE itemid=? ', (iid,))
+        cursor.execute('SELECT * FROM data_table WHERE itemid=?', (iid,))
         entry = cursor.fetchone()
 
-        if entry is not None:
-            cursor.execute('DELETE FROM data_table WHERE itemid=? ', (iid,))
+        if entry:
+            cursor.execute('DELETE FROM data_table WHERE itemid=?', (iid,))
             conn.commit()
         else:
             return redirect(url_for('show_itemlist'))
-            
-
+        
         flash('You were successfully delete an item')
             
         return redirect(url_for('show_itemlist'))
@@ -1247,7 +1364,7 @@ def requestItem():
     ms = request.json['mscode']
     lon = request.json['longitude']
     lat = request.json['latitude']
-    user="test1"
+    user="test"
 
     time_act = (datetime.now() + timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S")
     print (time_act)
@@ -1356,6 +1473,91 @@ def getRecordDataUser(Uname):
         lock.release()
 
     return(entry)
+
+@app.route('/getRecordData', methods=['GET'])
+def getRecordData():
+
+    totdata = []
+    totdata1 = []
+    countdata=[]
+    monthdata=[]
+    monthdatalabel=[]
+    rangetotdata1=0
+    try:
+        lock.acquire(True)
+        cursor.execute('SELECT count(*) as count, strftime("%m", datetaken) as monthdatetaken FROM record_table group by strftime("%m", datetaken)')
+        tott = cursor.fetchall()
+        for row in tott:
+            totdata.append([x for x in row]) # or simply data.append(list(row))
+        totdata1 = np.array(totdata)
+        rangetotdata1 = len(totdata1)
+        for i in range(rangetotdata1):
+            countdata.append(totdata1[i][0])
+            print(countdata)
+            monthdata.append(totdata1[i][1])
+            print(monthdata)
+
+        for j in monthdata:
+            if j == '1':
+                monthdatalabel.append("January")
+            elif j == '2':
+                monthdatalabel.append("Febuary")
+            elif j == '3':
+                monthdatalabel.append("March")
+            elif j == '4':
+                monthdatalabel.append("April")
+            elif j == '5':
+                monthdatalabel.append("May")
+            elif j == '6':
+                monthdatalabel.append("June")
+            elif j == '7':
+                monthdatalabel.append("July")
+            elif j == '8':
+                monthdatalabel.append("August")
+            elif j == '9':
+                monthdatalabel.append("September")
+            elif j == '10':
+                monthdatalabel.append("October")
+            elif j == '11':
+                monthdatalabel.append("November")
+            elif j == '12':
+                monthdatalabel.append("December")
+    finally:
+        lock.release()
+
+    return jsonify({'countdata': countdata,'monthdata': monthdata,'monthdatalabel': monthdatalabel}), 200 
+
+@app.route('/getUserRecordData', methods=['GET'])
+def getUserRecordData():
+
+    username=flask_login.current_user.id
+    cursor.execute('SELECT * FROM user_table where status_log=?',(username,))
+    entry = cursor.fetchone()
+
+    data_username = entry['username']
+
+    totdata = []
+    totdata1 = []
+    countdata=[]
+    msdata=[]
+    rangetotdata1=0
+    try:
+        lock.acquire(True)
+        cursor.execute('SELECT count(*) as count, mscode FROM record_table where username=? group by mscode order by mscode asc',(data_username,))
+        tott = cursor.fetchall()
+        for row in tott:
+            totdata.append([x for x in row]) # or simply data.append(list(row))
+        totdata1 = np.array(totdata)
+        rangetotdata1 = len(totdata1)
+        for i in range(rangetotdata1):
+            countdata.append(totdata1[i][0])
+            print(countdata)
+            msdata.append(totdata1[i][1])
+            print(msdata)
+    finally:
+        lock.release()
+
+    return jsonify({'countdata': countdata,'msdata': msdata}), 200 
   
 #End Get Data from server
 @app.errorhandler(400)

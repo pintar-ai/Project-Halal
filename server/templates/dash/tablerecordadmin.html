@@ -1,376 +1,303 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+
+
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
-    <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/img/favicon.ico')}}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title> Record List | Halal Item Services Dashboard</title>
-    
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-    <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
-    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}"+"?v=2.0.1" rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
-    <!-- CSS for Table Style below-->
-    <link rel="stylesheet" href="{{url_for('static', filename='assets/css/tablestyle.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <title>Halal Service</title>
+  <!-- Favicon -->
+  <link rel="icon" href="{{url_for('static', filename='assets1/img/brand/favicon.png')}}" type="image/png">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <!-- Icons -->
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/vendor/nucleo/css/nucleo.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
+  <!-- Page plugins -->
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/css/argon.css', v=1.2.0)}}" type="text/css">
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+  <!-- Datatable CDN -->
+  <!-- CSS for Table Style below-->
+  <link rel="stylesheet" href="{{url_for('static', filename='assets/css/tablestyle.css')}}"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
-
-    <style>
-        .dataTables_wrapper .dataTables_length {
-            margin-left: 20px; }
-        .dataTables_wrapper .dataTables_filter {
-            margin-right: 20px; }
-        .dataTables_wrapper .dataTables_info {
-            margin-left: 20px; }
-    </style>
+  <style>
+    .dataTables_wrapper .dataTables_length {
+        margin-left: 20px; }
+    .dataTables_wrapper .dataTables_filter {
+        margin-right: 20px; }
+    .dataTables_wrapper .dataTables_info {
+        margin-left: 20px; }
+  </style>
 </head>
 
 <body>
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-info" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-            {{message}}
-        </div>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    
-    {% block body %}{% endblock %}
-
-    <div class="wrapper">
-        <div class="sidebar"  data-color="blue">
-            
-            <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
-
-        Tip 2: you can also add an image using data-image tag
-    -->
-            <div class="sidebar-wrapper">
-                <div class="logo">
-                    <a href="" class="simple-text">
-                        <span>Welcome, {{ username }}</span>
-                    </a>
-                </div>
-                <ul class="nav">
-                    <li>
-                        <a class="nav-link" href="{{ url_for('show_admin') }}">
-                            <i class="nc-icon nc-chart-pie-35"></i>
-                            <p>Dashboard</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{ url_for('show_userprofile') }}">
-                            <i class="nc-icon nc-circle-09"></i>
-                            <p>User Profile</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{ url_for('show_userlist') }}">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>User List</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{ url_for('show_itemlist') }}">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>Item List</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('show_recordList') }}">
-                            <i class="nc-icon nc-notes"></i>
-                            <p>Record List</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{ url_for('adminmap') }}">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="main-panel">
-
-            <!-- Start Navbar -->    
-            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
-                <div class=" container-fluid  ">
-                    <a class="navbar-brand" href="{{ url_for('show_recordList') }}"> List of Halal Item </a>
-                    <small class="d-lg-none"  >&copy; <script>document.write(new Date().getFullYear())</script></small>
-                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                        <span class="navbar-toggler-bar burger-lines"></span>
-                    </button>
-                    
-                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
-                        <div>    
-                            <ul class="nav navbar-nav mr-auto">
-                                <li class="nav-item">
-                                    <!--<i class="nc-icon nc-palette"></i>-->
-                                    <span class="d-lg-none">Item List</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="{{ url_for('show_userprofile') }}"
-                                        id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <span class="no-icon">Menu</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item" href="{{ url_for('show_userprofile') }}">User Profile</a>
-                                        <a class="dropdown-item" href="{{ url_for('show_userlist') }}">User List</a>
-                                        <a class="dropdown-item" href="{{ url_for('show_itemlist') }}">Item List</a>
-                                        <a class="dropdown-item" href="{{ url_for('show_recordList') }}">Record List</a>
-                                        <a class="dropdown-item" href="{{ url_for('adminmap') }}">Maps</a>
-                                        <div class="divider"></div>
-                                        <a class="dropdown-item" href="#">Contact Us</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url_for('logout') }}">
-                                        <span class="no-icon">Log out</span>
-                                    </a>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                        <div style="float: left;">
-                            <small style="margin:10px;" class="d-none d-lg-block" >&copy; <script>document.write(new Date().getFullYear())</script></small>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <!-- End Navbar -->
-            <div class="content">
-                    
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card strpied-tabled-with-hover">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Record Table</h4>
-                                    <p class="card-category">List of Halal Item that exist in the database.</p>
-                                </div>
-                                <div class="card-body table-full-width table-responsive">
-                                    <table id="myTable" class="display cell-border" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th>Item ID</th>
-                                                <th>Item Name</th>
-                                                <th>Item MS Code</th>
-                                                <th>Item Description</th>
-                                                <th>Date Taken</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for user in users %}
-                                            <tr>
-                                                <td>{{user['itemid']}}</td>
-                                                <td>{{user['itemname']}}</td>
-                                                <td>{{user['mscode']}}</td>
-                                                <td>{{user['description']}}</td>
-                                                <td>{{user['datetaken']}}</td>
-                                                <td>{{user['username']}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Item ID</th>
-                                                <th>Item Name</th>
-                                                <th>Item MS Code</th>
-                                                <th>Item Description</th>
-                                                <th>Date Taken</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Trigger the modal with a button -->
-                        <center>
-                        
-                        </center>
-                        
-
-                        <!-- Modal -->
-                    </div>
-                </div>
-            </div>
-            <footer class="footer">
-                    <div class="container">
-                        <nav>
-                            <ul class="footer-menu">
-                                <li>
-                                    <a href="{{ url_for('show_admin') }}">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Contact Us
-                                    </a>
-                                </li>
-                            </ul>
-                            <p class="copyright text-center">
-                                Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
-                            </p>
-                        </nav>
-                    </div>
-                </footer>
-        </div>
-    </div>
-
-<!--
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-7 sm-6">
-            <div class="row">
-                <div class="col-lg-7 sm-4">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-                <div class="col-lg-5 sm-8">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-5 sm-6">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-    </div>
-</div>-->
-
-    <!-- <div class="fixed-plugin">
-    <div class="dropdown show-dropdown">
-        <a href="#" data-toggle="dropdown">
-            <i class="fa fa-cog fa-2x"> </i>
+  <!-- Sidenav -->
+  <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+      <!-- Brand -->
+      <div class="sidenav-header  align-items-center">
+        <a class="navbar-brand" href="javascript:void(0)">
+          <img src="{{url_for('static',filename='assets1/img/brand/pintarhalallogo.png')}}" href="{{url_for('show_admin')}}" class="navbar-brand-img" alt="...">
         </a>
-
-        <ul class="dropdown-menu">
-			<li class="header-title"> Sidebar Style</li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger">
-                    <p>Background Image</p>
-                    <label class="switch">
-                        <input type="checkbox" data-toggle="switch" checked="" data-on-color="primary" data-off-color="primary"><span class="toggle"></span>
-                    </label>
-                    <div class="clearfix"></div>
-                </a>
+      </div>
+      <div class="navbar-inner">
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+          <!-- Divider -->
+          <hr class="my-3">
+          <!-- Heading -->
+          <h6 class="navbar-heading p-0 text-muted">
+            <span class="docs-normal" style="display: grid;text-align: center;">Guide</span>
+          </h6>          
+          <!-- Nav items -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('show_admin')}}">
+                <i class="ni ni-tv-2 text-primary"></i>
+                <span class="nav-link-text">Dashboard</span>
+              </a>
             </li>
-            <li class="adjustments-line">
-                <a href="javascript:void(0)" class="switch-trigger background-color">
-                    <p>Filters</p>
-                    <div class="pull-right">
-                        <span class="badge filter badge-black" data-color="black"></span>
-                        <span class="badge filter badge-azure" data-color="azure"></span>
-                        <span class="badge filter badge-green" data-color="green"></span>
-                        <span class="badge filter badge-orange" data-color="orange"></span>
-                        <span class="badge filter badge-red" data-color="red"></span>
-                        <span class="badge filter badge-purple active" data-color="purple"></span>
-                    </div>
-                    <div class="clearfix"></div>
-                </a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('show_userprofile')}}">
+                <i class="ni ni-badge text-red"></i>
+                <span class="nav-link-text">User Profile</span>
+              </a>
             </li>
-            <li class="header-title">Sidebar Images</li>
-
-            <li class="active">
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-1.jpg" alt="" />
-                </a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('show_userlist')}}">
+                <i class="ni ni-single-02 text-yellow"></i>
+                <span class="nav-link-text">User List</span>
+              </a>
             </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-3.jpg" alt="" />
-                </a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('show_itemlist') }}">
+                <i class="ni ni-bag-17 text-orange"></i>
+                <span class="nav-link-text">Item List</span>
+              </a>
             </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="..//assets/img/sidebar-4.jpg" alt="" />
-                </a>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ url_for('show_recordList') }}">
+                <i class="ni ni-bullet-list-67 text-default"></i>
+                <span class="nav-link-text">Record List</span>
+              </a>
             </li>
-            <li>
-                <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../assets/img/sidebar-5.jpg" alt="" />
-                </a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('adminmap') }}">
+                <i class="ni ni-pin-3 text-primary"></i>
+                <span class="nav-link-text">Map</span>
+              </a>
             </li>
-
-            <li class="button-container">
-                <div class="">
-                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard" target="_blank" class="btn btn-info btn-block btn-fill">Download, it's free!</a>
-                </div>
-            </li>
-
-            <li class="header-title pro-title text-center">Want more components?</li>
-
-            <li class="button-container">
-                <div class="">
-                    <a href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro" target="_blank" class="btn btn-warning btn-block btn-fill">Get The PRO Version!</a>
-                </div>
-            </li>
-
-            <li class="header-title" id="sharrreTitle">Thank you for sharing!</li>
-
-            <li class="button-container">
-				<button id="twitter" class="btn btn-social btn-outline btn-twitter btn-round sharrre"><i class="fa fa-twitter"></i> · 256</button>
-                <button id="facebook" class="btn btn-social btn-outline btn-facebook btn-round sharrre"><i class="fa fa-facebook-square"></i> · 426</button>
-            </li>
-        </ul>
+          </ul>
+        </div>
+      </div>
     </div>
-</div>
- -->
+  </nav>
+  <!-- Main content -->
+  <div class="main-content" id="panel">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <h1 class="navbar-heading p-0 text-secondary" >Halal System Server</h1>
+          <!-- Navbar links -->
+          <ul class="navbar-nav align-items-center  ml-md-auto " style="margin-left: 20px;">
+            <li class="nav-item d-xl-none">
+              <!-- Sidenav toggler -->
+              <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
+                <div class="sidenav-toggler-inner">
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                  <i class="sidenav-toggler-line"></i>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item d-sm-none">
+              <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
+                <i class="ni ni-zoom-split-in"></i>
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+            <li class="nav-item dropdown">
+              <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="media align-items-center">
+                  <span class="avatar avatar-sm rounded-circle">
+                    <img alt="Image placeholder" src="{{url_for('static', filename='assets1/img/theme/1.png')}}">
+                  </span>
+                  <div class="media-body  ml-2  d-none d-lg-block">
+                    <span class="mb-0 text-sm  font-weight-bold">{{username}}</span>
+                  </div>
+                </div>
+              </a>
+              <div class="dropdown-menu  dropdown-menu-right ">
+                <div class="dropdown-header noti-title">
+                  <h6 class="text-overflow m-0">Welcome!</h6>
+                </div>
+                <a href="{{url_for('show_userprofile')}}" class="dropdown-item">
+                  <i class="ni ni-badge"></i>
+                  <span>My profile</span>
+                </a>
+                <a href="{{ url_for('show_userlist') }}" class="dropdown-item">
+                  <i class="ni ni-single-02"></i>
+                  <span>User List</span>
+                </a>
+                <a href="{{ url_for('show_itemlist') }}" class="dropdown-item">
+                  <i class="ni ni-bag-17"></i>
+                  <span>Item List</span>
+                </a>
+                <a href="{{ url_for('show_recordList') }}" class="dropdown-item">
+                  <i class="ni ni-bullet-list-67"></i>
+                  <span>Record List</span>
+                </a>
+                <a href="{{ url_for('adminmap') }}" class="dropdown-item">
+                  <i class="ni ni-pin-3"></i>
+                  <span>Map</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="{{ url_for('logout') }}" class="dropdown-item">
+                  <i class="ni ni-user-run"></i>
+                  <span>Logout</span>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <h6 class="h2 text-white d-inline-block mb-0">Record List</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="{{url_for('show_admin')}}"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="{{ url_for('show_recordList') }}">Record List</a></li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+              <h3 class="mb-0">Light table</h3>
+            </div>
+            <!-- Light table -->
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush" id="myTable">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Item MS Code</th>
+                    <th>Item Description</th>
+                    <th>Date Taken</th>
+                    <th>Username</th>
+                </tr>
+                </thead>
+                <tbody class="list">
+                  {% for user in users %}
+                  <tr>
+                      <td>{{user['itemid']}}</td>
+                      <td>{{user['itemname']}}</td>
+                      <td>{{user['mscode']}}</td>
+                      <td>{{user['description']}}</td>
+                      <td>{{user['datetaken']}}</td>
+                      <td>{{user['username']}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                      <th>Item ID</th>
+                      <th>Item Name</th>
+                      <th>Item MS Code</th>
+                      <th>Item Description</th>
+                      <th>Date Taken</th>
+                      <th>Username</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <!-- Footer -->
+      <footer class="footer pt-0">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6">
+            <div class="copyright text-center  text-lg-left  text-muted">
+              &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Halal Service</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <!-- Argon Scripts -->
+  <!-- Core -->
+  <script src="{{url_for('static', filename='assets1/vendor/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/js-cookie/js.cookie.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/jquery.scrollbar/jquery.scrollbar.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')}}"></script>
+  <!-- Optional JS -->
+  <script src="{{url_for('static', filename='assets1/vendor/chart.js/dist/Chart.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/chart.js/dist/Chart.extension.js')}}"></script>
+  <!-- Argon JS -->
+  <script src="{{url_for('static', filename='assets1/js/argon.js', v=1.2.0)}}"></script>
+
+  <!-- Datatable CDN JS -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+  <script>
+  $(document).ready( function () {
+      $('#myTable').dataTable( {
+          "order": [[4,"desc"]],
+          "pageLength":20,
+          "lengthMenu":[ [10, 20, 25, 50, -1], [10, 20, 25, 50, "All"] ]
+      });
+  } );
+  </script>
 </body>
-<!--   Core JS Files   -->
-<script src="{{url_for('static', filename='assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
-<script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
-<script src="{{url_for('static', filename='assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
-<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-switch.js')}}"></script>
-<!--  Google Maps Plugin    -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-<!--  Chartist Plugin  -->
-<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
-<!--  Notifications Plugin    -->
-<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
-<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="{{url_for('static', filename='assets/js/light-bootstrap-dashboard.js')}}"+"?v=2.0.1" type="text/javascript"></script>
-<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
-<script src="{{url_for('static', filename='assets/js/demo.js')}}"></script>
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
-
-<script>
-$(document).ready( function () {
-    $('#myTable').dataTable( {
-        "order": [[4,"desc"]]
-    });
-} );
-</script>
 
 </html>

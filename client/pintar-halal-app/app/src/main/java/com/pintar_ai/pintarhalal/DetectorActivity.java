@@ -17,6 +17,7 @@
 package com.pintar_ai.pintarhalal;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -27,7 +28,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.hardware.GeomagneticField;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Size;
@@ -40,6 +43,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.mlkit.vision.common.InputImage;
 import com.pintar_ai.pintarhalal.customview.OverlayView;
 import com.pintar_ai.pintarhalal.customview.OverlayView.DrawCallback;
@@ -95,13 +99,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private long detect_time = 0;
 
   //GPS
-  /*
-  private final FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+  private FusedLocationProviderClient mFusedLocationClient;
   private LocationCallback locationCallback;
   private LocationRequest locationRequest = LocationRequest.create();
   private double phoneLatitude = 0;
   private double phoneLongitude = 0;
-   */
+  private static final int REQUEST_READ_GPS = 0;
 
   //Gimmick
   private boolean gimmick_trigger = false;
@@ -139,6 +142,57 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private MultiBoxTracker tracker;
 
   private BorderedText borderedText;
+
+  private void populateAutoComplete() {
+    if (!mayRequestGPS()) {
+      return;
+    }
+
+  }
+
+  private boolean mayRequestGPS() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+      return true;
+    }
+    if (checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      return true;
+    }
+    if (checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      return true;
+    }
+    trackingOverlay = (OverlayView) findViewById(R.id.tracking_overlay);
+    if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)) {
+      Snackbar.make(trackingOverlay, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+              .setAction(android.R.string.ok, new View.OnClickListener() {
+                @Override
+                @TargetApi(Build.VERSION_CODES.M)
+                public void onClick(View v) {
+                  requestPermissions(new String[]{ACCESS_FINE_LOCATION}, REQUEST_READ_GPS);
+                }
+              });
+    } else {
+      requestPermissions(new String[]{ACCESS_FINE_LOCATION}, REQUEST_READ_GPS);
+    }
+    return false;
+  }
+
+
+  private void startLocationUpdates() {
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      // TODO: Consider calling
+      //    ActivityCompat#requestPermissions
+      // here to request the missing permissions, and then overriding
+      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+      //                                          int[] grantResults)
+      // to handle the case where the user grants the permission. See the documentation
+      // for ActivityCompat#requestPermissions for more details.
+      return;
+    }
+    locationRequest.setInterval(2000);
+    mFusedLocationClient.requestLocationUpdates(locationRequest,
+            locationCallback,
+            null /* Looper */);
+  }
 
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {
@@ -203,6 +257,27 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             });
 
     tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
+    populateAutoComplete();
+    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    locationCallback = new LocationCallback() {
+      @Override
+      public void onLocationResult(LocationResult locationResult) {
+        if (locationResult == null) {
+          return;
+        }
+        for (Location location : locationResult.getLocations()) {
+          // Update UI with location data
+          //Log.i("Location","new Update");
+          phoneLatitude = location.getLatitude();
+          phoneLongitude = location.getLongitude();
+          String lat = Double.toString(phoneLatitude);
+          String lon = Double.toString(phoneLongitude);
+          LOGGER.i("Location: Latitude " + lat + "\n");
+          LOGGER.i("Location: Longitude " + lon + "\n");
+        }
+      };
+    };
+    startLocationUpdates();
   }
 
   @Override
@@ -232,26 +307,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     if (SAVE_PREVIEW_BITMAP) {
       ImageUtils.saveBitmap(croppedBitmap);
     }
-    /*
-    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      // TODO: Consider calling
-      //    ActivityCompat#requestPermissions
-      // here to request the missing permissions, and then overriding
-      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-      //                                          int[] grantResults)
-      // to handle the case where the user grants the permission. See the documentation
-      // for ActivityCompat#requestPermissions for more details.
-      return;
-    }
-    mFusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-      if (location != null) {
-        phoneLatitude = location.getLatitude();
-        phoneLongitude = location.getLongitude();
-        LOGGER.i("Location", "Latitude " + phoneLatitude + "\n");
-        LOGGER.i("Location", "Longitude " + phoneLongitude + "\n");
-      }
-    });
-    */
+
 
     Boolean send_gimmick = switch_trigger.isChecked();
     String gimmick_ip = gimmick_server.getText().toString();
@@ -402,7 +458,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 }else if(serial_product.get("ms_code")!=null && serial_product.get("reference")!=null){
                   // Fetch to server
                   LOGGER.i("Fetch product detail to server ");
-                  List<String> response = serverconnect.RequestItem(serial_product.get("ms_code"), serial_product.get("reference"));
+                  List<String> response = serverconnect.RequestItem(serial_product.get("ms_code"), serial_product.get("reference"), phoneLongitude, phoneLatitude);
                   LOGGER.i("Get response from server " + response);
                   if (response.get(1)=="200"){
                     cached_product.put("ms_code", serial_product.get("ms_code"));

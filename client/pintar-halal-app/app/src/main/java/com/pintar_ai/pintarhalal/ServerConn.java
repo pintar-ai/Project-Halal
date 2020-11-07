@@ -81,12 +81,14 @@ public class ServerConn{
         }
     }
 
-    public List<String> RequestItem(String ms_code, String reference){
+    public List<String> RequestItem(String ms_code, String reference, Double longitude, Double latitude){
         try {
             String urlString = server+"/requestItem"; // URL to call
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("mscode", ms_code);
             jsonParam.put("itemid", reference);
+            jsonParam.put("longitude", longitude);
+            jsonParam.put("latitude", latitude);
             JSONObject response = SendPost(urlString,jsonParam);
             if (response.has("error")){
                 return Arrays.asList(response.getString("error"), "404");

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{url_for('static', filename='assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename='assets/img/favicon.ico')}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Main Admin | Halal Item Services Dashboard</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="{{url_for('static', filename='assets/css/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" +"?v=2.0.1"
+        rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{url_for('static', filename='assets/css/demo.css')}}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        .assetSlides{
+			display:none;
+			z-index: 2;
+		}
+        .assets-slideshow{
+			margin-bottom: 25px;
+		}
+        .prev, .next {
+			cursor: pointer;
+			position: absolute;
+			top: 35%;
+			width: auto;
+			margin-top: -22px;
+			padding: 16px;
+			color: white;
+			font-weight: bold;
+			font-size: 18px;
+			transition: 0.6s ease;
+			border-radius: 0 3px 3px 0;
+			user-select: none;
+		}
+
+		.next {
+			right: 0;
+			border-radius: 3px 0 0 3px;
+		}
+
+		.prev:hover, .next:hover {
+			background-color: rgba(0,0,0,0.8);
+		}	
+
+		.slideText {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			background-color: rgba(0,0,0,0.8);
+			color: white;
+			font-size: 25px;
+			padding-left: 20px;
+			padding-right: 20px;
+            margin-bottom: 200px;
+		}
+		.dot {
+			cursor: pointer;
+			height: 15px;
+			width: 15px;
+			margin: 10px 5px;
+			background-color: #bbb;
+			border-radius: 50%;
+			display: inline-block;
+			transition: background-color 0.6s ease;
+		}
+
+		.active, .dot:hover {
+			background-color: #717171;
+		}
+
+        .slideText {
+			position: absolute;
+			bottom: 20px;
+			right: 20px;
+			background-color: rgba(0,0,0,0.8);
+			color: white;
+			font-size: 25px;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+        /* Using for Countdown Timer */
+
+        /* Sets the containers height and width */
+        .base-timer {
+            position: relative;
+            height: 600px;
+            width: 600px;
+            margin-top: 100px;
+        }
+
+        /* Removes SVG styling that would hide the time label */
+        .base-timer__circle {
+            fill: none;
+            stroke: none;
+        }
+
+        /* The SVG path that displays the timer's progress */
+        .base-timer__path-elapsed {
+            stroke-width: 7px;
+            stroke: grey;
+        }
+
+        .base-timer__label {
+            position: absolute;
+            
+            /* Size should match the parent container */
+            width: 600px;
+            height: 600px;
+            
+            /* Keep the label aligned to the top */
+            top: 0;
+            
+            /* Create a flexible box that centers content vertically and horizontally */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            /* Sort of an arbitrary number; adjust to your liking */
+            font-size: 96px;
+        }
+
+        /*Background Slide*/
+        .mySlides {
+			display:none;
+			width: 100%;
+			height: 100%;
+		}
+        .fade {
+			-webkit-animation-name: fade;
+			-webkit-animation-duration: 4.0s;
+			animation-name: fade;
+			animation-duration: 4.0s;
+		}
+
+		@-webkit-keyframes fade {
+			from {opacity: .1}
+			to {opacity: 1}
+		}
+
+		@keyframes fade {
+			from {opacity: .1}
+			to {opacity: 1}
+		}
+
+        .background-container{
+			height: 115%;
+			width: 100%;
+			z-index: -1;
+			position: absolute;
+			display: flex;
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+		}
+
+        .background-container::before, .background-container::after{
+
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: block;
+            left: 0;
+            top: 0;
+            content: "";
+
+        }
+
+        .background-container::before{
+
+            background: rgba(0,0,0,0.8);
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="wrapper">
+
+        <div class="sidebar" data-color="blue">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+        Tip 2: you can also add an image using data-image tag data-image="{{url_for('static', filename='assets/img/sidebar-5.jpg')}}"
+    -->
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('show_admin') }}">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500" style="z-index: 2;">
+                <div class=" container-fluid ">
+                    <a class="navbar-brand" href="{{ url_for('login') }}"> Halal Server </a>
+        
+                    <small class="d-lg-none"  >&copy; <script>document.write(new Date().getFullYear())</script> pintar.ai</small>
+                    
+                    <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                            <small style="margin:10px;" class="d-none d-lg-block" >&copy; <script>document.write(new Date().getFullYear())</script> </small>
+                        
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <!--<i class="nc-icon nc-palette"></i>-->
+                                <span class="d-lg-none">Dashboard</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+
+            <div class="content" style="padding: 0px 0px;">
+                <div class="background-container">
+                    <img class="mySlides fade" src="{{url_for('static', filename='img/background-login/bg1.png')}}">
+                    <img class="mySlides fade" src="{{url_for('static', filename='img/background-login/bg2.png')}}">
+                </div>
+                <div class="container-fluid" style="z-index: 5;">
+                    <div class="row">
+
+						<div class="col-md-6" style="margin: auto; max-width: 1000px; flex: 0 0 65%;">
+							<div class="card-wrapper">
+								<div class="row" style="margin-bottom: 50px;">
+									<div class="row" style="width: 102%;">
+										<div class="assets-slideshow" style="width: 100%; overflow: hidden; border-radius: 5%; margin-top: 50px;">
+											<div class="assetSlides ">
+												<img src="{{url_for('static', filename='img/slide-login/img1.jpg')}}" style="width: 100%;">
+											</div>
+											<div class="assetSlides ">
+												<img src="{{url_for('static', filename='img/slide-login/img2.jpg')}}" style="width: 100%;">
+											</div>
+											<div class="assetSlides ">
+												<img src="{{url_for('static', filename='img/slide-login/img3.jpg')}}" style="width: 100%;">
+											</div>
+			
+											<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+											<a class="next" onclick="plusSlides(1)">&#10095;</a>
+										</div>
+									</div>
+									<div class="row" style="margin:auto; margin-top: 5px ;">
+										<div style=" z-index: 2;">
+											<span class="dot" onclick="currentSlide(1)"></span>
+											<span class="dot" onclick="currentSlide(2)"></span>
+											<span class="dot" onclick="currentSlide(3)"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+                    </div>
+                    
+                </div>
+                
+            </div>
+
+            <footer class="footer">
+                <div class="container">
+                    <nav>
+                        <ul class="footer-menu">
+                            <li>
+                                <a href="{{ url_for('login') }}">
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Contact Us
+                                </a>
+                            </li>
+                        </ul>
+                        <p class="copyright text-center">
+                            Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
+                        </p>
+                    </nav>
+                </div>
+            </footer>
+            
+        </div>
+    </div>
+    
+</body>
+<!--   Core JS Files   -->
+<script src="{{url_for('static', filename='assets/js/core/jquery.3.2.1.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-switch.js')}}"></script>
+<!--  Google Maps Plugin    -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!--  Chartist Plugin  -->
+<script src="{{url_for('static', filename='assets/js/plugins/chartist.min.js')}}"></script>
+<!--  Notifications Plugin    -->
+<script src="{{url_for('static', filename='assets/js/plugins/bootstrap-notify.js')}}"></script>
+<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+<script src="{{url_for('static', filename='assets/js/light-bootstrap-dashboard.js')}}" +"?v=2.0.1"
+    type="text/javascript"></script>
+<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
+<script src="{{url_for('static', filename='assets/js/demo.js')}}"></script>
+
+<script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("assetSlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+    }  
+</script>
+
+<script>
+	var myIndex = 0;
+	carousel();
+	
+	function carousel() {
+		var i;
+		var x = document.getElementsByClassName("mySlides");
+		for (i = 0; i < x.length; i++) {
+		x[i].style.display = "none";  
+		}
+		myIndex++;
+		if (myIndex > x.length) {myIndex = 1}    
+		x[myIndex-1].style.display = "block";  
+		setTimeout(carousel, 4000); // Change image every 4 seconds
+	}
+</script>
+
+</html>

@@ -1,424 +1,252 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-	<meta charset="utf-8">
-	<meta name="author" content="Kodinger">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Login | Halal Item Server </title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/my-login.css')}}">
-	<!-- {{url_for('static', filename='img/logo.jpg')}}    -->
-	<!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS Files -->
-    <link href="{{url_for('static', filename='assets/css/light-bootstrap-dashboard.css')}}" +"?v=2.0.1"
-    rel="stylesheet" />
-
-	<style>
-		.mySlides {
-			display:none;
-			width: 100%;
-			height: 100%;
-		}
-
-		.assetSlides{
-			display:none;
-			z-index: 2;
-		}
-
-		.background-container{
-			height: 100%;
-			width: 100%;
-			z-index: 1;
-			position: absolute;
-			display: flex;
-			background-size: cover;
-			background-position: center center;
-			background-repeat: no-repeat;
-			background-attachment: fixed;
-		}
-
-		.background-container-content{
-			z-index: 0;
-			display: flex;
-			position: relative;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-		}
-
-		.background-container-content .container{
-			margin-right: auto;
-			margin-left: auto;
-			position: relative;
-			min-height: 100vh;
-			z-index: 2;
-		}
-
-		.background-container-content .text-container{
-			margin-right: auto;
-			margin-left: auto;
-			position: relative;
-			min-height: 25vh;
-			z-index: 2;
-		}
-
-		.background-container-content .assets-slideshow{
-			max-width: 1000px;
-  			position: relative;
-  			margin: auto;
-			z-index: 2;
-		}
-		
-		.text-container-title{
-			color: white;
-			text-align: left;
-		}
-
-		.text-container-content{
-			color: white;
-			text-align: left;
-		}
-
-		.background-container::before, .background-container::after{
-
-			position: absolute;
-			z-index: 1;
-			width: 100%;
-			height: 100%;
-			display: block;
-			left: 0;
-			top: 0;
-			content: "";
-
-		}
-
-		.background-container::before{
-
-			background: rgba(0,0,0,0.8);
-
-		}
-
-		.footer-content{
-			margin-right: 10px;
-		}
-
-		.footer{
-			border-top:1px solid #e7e7e7;
-			height: 210px;
-			background-color: #ffffff;
-
-		}
-
-		.assets-slideshow{
-			margin-bottom: 100px;
-		}
-
-		.prev, .next {
-			cursor: pointer;
-			position: absolute;
-			top: 50%;
-			width: auto;
-			margin-top: -22px;
-			padding: 16px;
-			color: white;
-			font-weight: bold;
-			font-size: 18px;
-			transition: 0.6s ease;
-			border-radius: 0 3px 3px 0;
-			user-select: none;
-		}
-
-		.next {
-			right: 0;
-			border-radius: 3px 0 0 3px;
-		}
-
-		.prev:hover, .next:hover {
-			background-color: rgba(0,0,0,0.8);
-		}	
-
-		.slideText {
-			position: absolute;
-			bottom: 20px;
-			right: 20px;
-			background-color: rgba(0,0,0,0.8);
-			color: white;
-			font-size: 25px;
-			padding-left: 20px;
-			padding-right: 20px;
-		}
-		.dot {
-			cursor: pointer;
-			height: 15px;
-			width: 15px;
-			margin: 10px 5px;
-			background-color: #bbb;
-			border-radius: 50%;
-			display: inline-block;
-			transition: background-color 0.6s ease;
-		}
-
-		.active, .dot:hover {
-			background-color: #717171;
-		}
-
-		.fade {
-			-webkit-animation-name: fade;
-			-webkit-animation-duration: 4.0s;
-			animation-name: fade;
-			animation-duration: 4.0s;
-		}
-
-		@-webkit-keyframes fade {
-			from {opacity: .1}
-			to {opacity: 1}
-		}
-
-		@keyframes fade {
-			from {opacity: .1}
-			to {opacity: 1}
-		}
-
-		@media (min-width:1310px) {
-			.container {
-				max-width:1300px;
-			}
-		}
-	</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <title>Halal Service</title>
+  <!-- Favicon -->
+  <link rel="icon" href="{{url_for('static', filename='assets1/img/brand/favicon.png')}}" type="image/png">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+  <!-- Icons -->
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/vendor/nucleo/css/nucleo.css')}}" type="text/css">
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
+  <!-- Argon CSS -->
+  <link rel="stylesheet" href="{{url_for('static', filename='assets1/css/argon.css', v=1.2.0)}}" type="text/css">
 </head>
 
-<body class="my-login-page">
-	<!-- Navbar -->
-
-	<nav class="navbar navbar-expand-lg " style="z-index: 2;">
-		<div class=" container-fluid ">
-			<div class="brand" style="margin: 0 auto; margin-right: 15px; height: 50px; width: 50px;">
-				<img src="{{url_for('static', filename='img/halal.png')}}" alt="logo" href="{{ url_for('login') }}" >
-			</div>
-			<a class="navbar-brand" href="{{ url_for('login') }}"> Halal Server </a>
-
-			<small class="d-lg-none"  >&copy; <script>document.write(new Date().getFullYear())</script> pintar.ai</small>
-			
-			<div class="collapse navbar-collapse justify-content-end" id="navigation">
-					<small style="margin:10px;" class="d-none d-lg-block" >&copy; <script>document.write(new Date().getFullYear())</script> </small>
-				
-				<ul class="nav navbar-nav mr-auto">
-					<li class="nav-item">
-						<!--<i class="nc-icon nc-palette"></i>-->
-						<span class="d-lg-none">Dashboard</span>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<!-- End Navbar -->
-
-	<section class="h-100" style="display: grid;">
-		<div class="background-container-content">
-			<div class="background-container">
-				<img class="mySlides fade" src="{{url_for('static', filename='img/background-login/bg1.png')}}">
-				<img class="mySlides fade" src="{{url_for('static', filename='img/background-login/bg2.png')}}">
-			</div>
-			<div class="container h-100">
-				<div class="row justify-content-md-center h-100">
-
-					<div class="col-md-6" style="margin: auto;">
-						<div class="card-wrapper">
-							<div class="row" style="margin-bottom: 50px;">
-								<div class="text-container">
-									<h2 class="text-container-title">Halal Services</h2>
-									<h4 class="text-container-content">Halal service that has been provided by us to the world. Where the user will know which thing is truly halal.</h4>
-								</div>
-							</div>
-							<div class="row" style="margin-bottom: 50px;">
-								<div class="row">
-									<div class="assets-slideshow" style="width: 100%; overflow: hidden; border-radius: 5%;">
-										<div class="assetSlides ">
-											<img src="{{url_for('static', filename='img/slide-login/img1.jpg')}}" style="width: 100%;" >
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6" style="z-index: 2; margin: auto;">
-						<div class="card-wrapper" style="margin-left:auto">
-							
-							<div class="brand">
-								<img src="{{url_for('static', filename='img/halal.png')}}" alt="logo">
-							</div>
-							<div class="card fat">
-								<div class="card-body">
-									<h4 class="card-title">Login</h4>
-									{% if error %}
-										<div class="alert alert-danger">
-											<strong>{{error}}</strong>
-										</div>
-									{% endif %}
-									<form method="POST" class="my-login-validation" novalidate="" action="/login">
-										<div class="form-group">
-											<label for="username">Username</label>
-											<input id="username" type="text" class="form-control" name="username" value=""
-												required autofocus>
-											<div class="invalid-feedback">
-												Username is invalid
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label for="password">Password
-												<a href="#" class="float-right">
-													Forgot Password?
-												</a>
-											</label>
-											<input id="password" type="password" class="form-control" name="password" required
-												data-eye>
-											<div class="invalid-feedback">
-												Password is required
-											</div>
-										</div>
-
-										<div class="form-group">
-											<div class="custom-checkbox custom-control">
-												<input type="checkbox" name="remember" id="remember"
-													class="custom-control-input">
-												<label for="remember" class="custom-control-label">Ingat saya</label>
-											</div>
-										</div>
-
-										<div class="form-group m-0">
-											<button type="submit" class="btn btn-primary btn-block">
-												Login
-											</button>
-										</div>
-										<div class="mt-4 text-center">
-											Don't have an account? <a href="{{ url_for('regtemplate') }}">Create One</a>
-											
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-			<footer class="footer" style="position: relative; display: block;margin: auto; width: -moz-available; width: -webkit-fill-available;">
-				<div class="container" style="max-width: 1500px;">
-					<nav style="float: left; min-height: 200px;">
-						<ul class="footer-menu" style="min-height: inherit;">
-							<li style="margin: 20px;margin-right: 50px;">
-								<div class="brand">
-									<img src="{{url_for('static', filename='img/halal.png')}}" alt="logo">
-								</div>
-							</li>
-							<li>
-								<div class="footer-content">
-									<div class="footer-content-address-title">
-										<h4 style="text-align: justify;">Address</h4>
-									</div>
-									<div class="footer-contetn-address-content">
-										<p style="text-align: left; font-size: 12px;">
-											PintarAi Services Sdn Bhd,<br> (1331900-P)<br> C/O Lot 19-2, Jalan AU 1A/4b,<br>Keramat Permai Business Centre,54200,<br> Kuala Lumpur, Malaysia.
-										</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="footer-content">
-									<div class="footer-content-address-title">
-										<h4 style="text-align: justify;">Contact Us</h4>
-									</div>
-									<div class="footer-contetn-address-content">
-										<p style="text-align: left; font-size: 12px;">
-											sales@pintarai.com<br> support@pintarai.com<br> +(60)19 718 5199<br> +(60)19981 6001
-										</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="footer-content">
-									<div class="footer-content-address-title">
-										<h4 style="text-align: justify;">Resources</h4>
-									</div>
-									<div class="footer-contetn-address-content">
-										<p style="text-align: left; font-size: 12px;">
-											Our Published Papers on AI<br> Our Published Papers on Robotic<br> Download form Github
-										</p>
-									</div>
-								</div>
-							</li>
-							<li>
-							</li>
-						</ul>
-					</nav>
-					<div style="float: right; position: relative; display: block;margin-top: 75px;">
-						<p class="copyright text-center">
-							Copyright &copy; <script>document.write(new Date().getFullYear())</script> pintar.ai. All rights reserved.
-						</p>
-					</div>
-				</div>
-			</footer>
-		</div>
-	</section>
-
+<body class="bg-default">
+  <!-- Navbar -->
+  <nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+    <div class="container justify-content-center">
+      <img href="{{url_for('login')}}" src="{{url_for('static',filename='assets1/img/brand/pintarhalallogo.png')}}" style="width: 20%; margin: auto;">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" aria-hidden="true">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <br>
+      <div class="navbar-collapse navbar-custom-collapse collapse" id="navbar-collapse">
+        <div class="navbar-collapse-header">
+          <div class="row">
+            <div class="col-6 collapse-brand">
+              <img src="{{url_for('static',filename='assets1/img/brand/pintarhalallogo.png')}}" style="width: auto;height: 80px;">
+            </div>
+            <div class="col-6 collapse-close">
+              <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="{{url_for('login')}}" class="nav-link">
+              <span class="nav-link-inner--text">Login</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('regtemplate') }}" class="nav-link">
+              <span class="nav-link-inner--text">Register</span>
+            </a>
+          </li>
+        </ul>
+        <hr class="d-lg-none" />
+      </div>
+    </div>
+  </nav>
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+      <div class="container">
+        <div class="header-body text-center mb-7">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+              <h1 class="text-white">Halal Services</h1>
+              <p class="text-lead text-white">Halal service that has been provided by us to the world. Where the user will know which thing is truly halal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="wrapper">
+      <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+          <div class="col-lg col-md-7 mt--4 mr-3 mb-3">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              </ol>
+              <div class="carousel-inner mt-6">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="{{url_for('static', filename='img/background-login/bg1.png')}}" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="{{url_for('static', filename='img/background-login/bg2.png')}}" alt="Second slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>                        
+          </div>
+          <div class="col-lg-5 col-md-7">
+            <div class="card bg-secondary border-0 mb-0">
+              <div class="card-body px-lg-5 py-lg-5">
+                {% if error %}
+                <div class="alert alert-danger">
+                  <strong>{{error}}</strong>
+                </div>
+                {% endif %}
+                <div class="text-center text-muted mb-4">
+                  <small>Sign in with credentials</small>
+                </div>
+                <form method="POST" class="my-login-validation" novalidate="" action="/login">
+                  <div class="form-group mb-3">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      </div>
+                      <input class="form-control" placeholder="Username" id="username" type="text" name="username" required autofocus>
+                      <div class="invalid-feedback">Username is invalid</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      <input id="password" name="password" class="form-control" placeholder="Password" type="password" required data-eye>
+                      <div class="invalid-feedback">Password is required</div>
+                    </div>
+                  </div>
+                  <div class="custom-control custom-control-alternative custom-checkbox">
+                    <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                    <label class="custom-control-label" for=" customCheckLogin">
+                      <span class="text-muted">Remember me</span>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary btn-block my-4">Sign in</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row mt-4 ml-5 text-center text-white">
+              Don't have an account? <a href="{{ url_for('regtemplate') }}" class="ml-3 text-primary">Create new account</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="py-5" id="footer-main">
+    <div class="container">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; 2020 <a href="{{url_for('login')}}" class="font-weight-bold ml-1" target="_blank">Halal Server</a>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end" style="flex-wrap: nowrap;">
+            <li class="nav-item ml-3">
+              <div class="footer-content">
+                <div class="footer-content-address-title">
+                  <h4 class="text-secondary" style="text-align: justify;">Address</h4>
+                </div>
+                <div class="footer-contetn-address-content">
+                  <p class="text-secondary" style="text-align: left; font-size: 12px;">
+                    PintarAi Services Sdn Bhd,<br> (1331900-P)<br> C/O Lot 19-2, Jalan AU 1A/4b,<br>Keramat Permai Business Centre,54200,<br> Kuala Lumpur, Malaysia.
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item ml-3 mr-3">
+              <div class="footer-content">
+                <div class="footer-content-address-title">
+                  <h4 class="text-secondary" style="text-align: justify;">Contact Us</h4>
+                </div>
+                <div class="footer-contetn-address-content">
+                  <p class="text-secondary" style="text-align: left; font-size: 12px;">
+                    sales@pintarai.com<br> support@pintarai.com<br> +(60)19 718 5199<br> +(60)19981 6001
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item ml-3">
+              <div class="footer-content">
+                <div class="footer-content-address-title">
+                  <h4 class="text-secondary" style="text-align: justify;">Resources</h4>
+                </div>
+                <div class="footer-contetn-address-content">
+                  <p class="text-secondary" style="text-align: left; font-size: 12px;">
+                    Our Published Papers on AI<br> Our Published Papers on Robotic<br> Download form Github
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Argon Scripts -->
+  <!-- Core -->
+  <script src="{{url_for('static', filename='assets1/vendor/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/js-cookie/js.cookie.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/jquery.scrollbar/jquery.scrollbar.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')}}"></script>
+  <!-- Optional JS -->
+  <script src="{{url_for('static', filename='assets1/vendor/chart.js/dist/Chart.min.js')}}"></script>
+  <script src="{{url_for('static', filename='assets1/vendor/chart.js/dist/Chart.extension.js')}}"></script>
+  <!-- Argon JS -->
+  <script src="{{url_for('static', filename='assets1/js/argon.js', v=1.2.0)}}"></script>
+  <!--Old Login JS-->
 	<script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
 	<script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
 	<script src="{{url_for('static', filename='js/my-login.js')}}"></script>
 
-<script>
-	var myIndex = 0;
-	carousel();
-	
-	function carousel() {
-		var i;
-		var x = document.getElementsByClassName("mySlides");
-		for (i = 0; i < x.length; i++) {
-		x[i].style.display = "none";  
-		}
-		myIndex++;
-		if (myIndex > x.length) {myIndex = 1}    
-		x[myIndex-1].style.display = "block";  
-		setTimeout(carousel, 4000); // Change image every 4 seconds
-	}
-</script>
-
-<script>
-	var slideIndex = 1;
-	showSlides(slideIndex);
-
-	// Next/previous controls
-	function plusSlides(n) {
-		showSlides(slideIndex += n);
-	}
-
-	// Thumbnail image controls
-	function currentSlide(n) {
-		showSlides(slideIndex = n);
-	}
-
-	function showSlides(n) {
-		var i;
-		var slides = document.getElementsByClassName("assetSlides");
-		var dots = document.getElementsByClassName("dot");
-		if (n > slides.length) {slideIndex = 1}
-		if (n < 1) {slideIndex = slides.length}
-		for (i = 0; i < slides.length; i++) {
-			slides[i].style.display = "none";
-		}
-		for (i = 0; i < dots.length; i++) {
-			dots[i].className = dots[i].className.replace(" active", "");
-		}
-		slides[slideIndex-1].style.display = "block";
-		dots[slideIndex-1].className += " active";
-	}  
-</script>
-
+  <script>
+    var menu = $('#menu'), but = $('#menu_button');
+    $(document).on('click', '*', function(evt) {
+        evt.stopPropagation();
+        if ($(this).is(but))
+            menu.toggle();
+        else if (!$(this).closest(menu).length)
+            menu.hide();
+    });
+  </script>
 </body>
 
 </html>

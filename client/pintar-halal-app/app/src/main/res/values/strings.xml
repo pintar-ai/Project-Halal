@@ -2,4 +2,5 @@
     <string name="tfe_od_app_name" translation_description="Object Detection demo app [CHAR_LIMIT=40]">TFL Detect</string>
     <string name="halal_od_app_name" translation_description="Halal Detection demo app [CHAR_LIMIT=40]">Pintar Halal</string>
     <string name="tfe_od_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
+    <string name="permission_rationale">\"Location Permission is needed\"</string>
 </resources>
