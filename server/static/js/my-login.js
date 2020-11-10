@@ -33,7 +33,7 @@ $(function() {
 		}));
 
 		$this.css({
-			paddingRight: 120
+			paddingRight: 135
 		});
 		$this.after($("<div/>", {
 			html: 'Show',

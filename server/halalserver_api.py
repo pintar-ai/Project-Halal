@@ -823,7 +823,7 @@ def show_admin():
 
         if entry :
             if entry['privilage']==7:
-                return render_template('dash/adminboard.html', username=username, user=entry2, record=record, pastrecord=pastrecord, compare=compare)
+                return render_template('dash/adminboard.html', username=username, user=entry2, record=record, pastrecord=abs(compare), compare=compare)
             flask_login.logout_user()
             return redirect(url_for('login'))
     else:
@@ -881,7 +881,7 @@ def userdash():
 
         if entry :
             if entry['privilage']==0:
-                return render_template('dash/dashboard.html', user=entry3, username=data_username, record=record, pastrecord=pastrecord, compare=compare) #user dashboard
+                return render_template('dash/dashboard.html', user=entry3, username=data_username, record=record, pastrecord=abs(compare), compare=compare) #user dashboard
             flask_login.logout_user()
             return redirect(url_for('login'))
     else:
